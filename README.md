@@ -1,2 +1,2 @@
 # psearch
-Parallel Log Searcher
+Python script to conduct parallel and remote log searching
