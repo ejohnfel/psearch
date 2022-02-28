@@ -1,0 +1,921 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logs>
+  <log name="Blackboard Prod" group="blackboard" status="good" nick="blackboard">
+    <description>Blackboard production logs</description>
+    <owner>systems;Mark Carroll;mark.carroll@stonybrook.edu</owner>
+    <source>129.49.1.27</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.1\.27\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Blackboard Test" group="blackboard" status="failed" nick="blackboard_old">
+    <description>Bloackboard Test</description>
+    <owner>systems;Mark Carroll;mark.carroll@stonybrook.edu</owner>
+    <source>129.49.1.25</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.1\.27\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="EAI Peoplesoft" group="peoplesoft" status="failed" nick="peoplesoft">
+    <description>Peoplesoft logs</description>
+    <owner>EAI;Andrew Kirsch;andrew.kirsch@stonybrook.edu</owner>
+    <source>129.49.2.5</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.2\.5\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Systems ISYR ROOTDC (Syracuse)" group="ad" status="failed" nick="syrrootdc">
+    <description>Syracuse DC</description>
+    <owner>systems;Brian Heller;brian.heller@stonybrook.edu</owner>
+    <source>129.49.4.83</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.4\.83\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Systems SYR ADDC (Syracuse)" group="ad" status="failed" nick="syrdc">
+    <description>Syracuse ADDC (Redundant DC)</description>
+    <owner>systems;Brian Heller;brian.heller@stonybrook.edu</owner>
+    <source>129.49.4.84</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.4\.84\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Juniper" group="vpn" status="removed" nick="vpn_old">
+    <description>Juniper VPN</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>129.49.6.3</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.6\.3\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>Removed 1/29/2020</comment>
+    <notes></notes>
+  </log>
+  <log name="Infoblox_itisme_a" group="dns" status="good" nick="itisme">
+    <description>Infoblock DNS</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>129.49.7.2</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.7\.2\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Infoblox_nocnoc" group="dns" status="good" nick="nocnoc">
+    <description>Infoblox DNS</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>129.49.7.3</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.7\.3\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Infoblox_7_168" group="dns" status="good" nick="recursive1">
+    <description>Recursive DNS</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>129.49.7.168</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.7\.168\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Infoblox_7_172" group="dns" status="good" nick="recursive2">
+    <description>Recursive DNS</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>129.49.7.172</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.7\.172\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Infoblox_irecusrion" group="dns" status="removed" nick="recursive3">
+    <description>No description</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>129.49.7.173</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.7\.173\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>Removed on 1/29/2020</comment>
+    <notes></notes>
+  </log>
+  <log name="NOC Adm Aruba Wifi Ctrl 01" group="wifi" status="good" nick="aruba1">
+    <description>Aruba Wifi Controller 1</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>129.49.7.211</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.7\.211\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <streamers>
+	<streamer name="iot" type="script">iot.py</streamer>
+    </streamers>
+    <queries>
+      <query name="users" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>[^,]+),.+]]></query>
+      <query name="iot" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>WolfieNet-IoT),.+]]></query>
+      <query name="guest" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>WolfieNet-Guest),.+]]></query>
+    </queries>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="NOC Adm Aruba Wifi Ctrl 02" group="wifi" status="good" nick="aruba2">
+    <description>Aruba Wifi Controller 2</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>129.49.7.212</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.7\.212\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <streamers>
+	<streamer name="iot" type="script">iot.py</streamer>
+    </streamers>
+    <queries>
+      <query name="users" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>[^,]+),.+]]></query>
+      <query name="iot" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>WolfieNet-IoT),.+]]></query>
+      <query name="guest" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>WolfieNet-Guest),.+]]></query>
+    </queries>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="NOC Adm Aruba Wifi Ctrl 03" group="wifi" status="failed" nick="aruba3">
+    <description>Aruba Wifi Controller 3</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>129.49.7.213</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.7\.213\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <streamers>
+	<streamer name="iot" type="script">iot.py</streamer>
+    </streamers>
+    <queries>
+      <query name="users" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>[^,]+),.+]]></query>
+      <query name="iot" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>WolfieNet-IoT),.+]]></query>
+      <query name="guest" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>WolfieNet-Guest),.+]]></query>
+    </queries>
+    <comment>New 1/29/2020, is it being fed yet</comment>
+    <notes></notes>
+  </log>
+  <log name="NOC Adm Aruba Wifi Ctrl 04" group="wifi" status="failed" nick="aruba4">
+    <description>Aruba Wifi Controller 4</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>129.49.7.214</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.7\.214\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <streamers>
+	<streamer name="iot" type="script">iot.py</streamer>
+    </streamers>
+    <queries>
+      <query name="users" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>[^,]+),.+]]></query>
+      <query name="iot" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>WolfieNet-IoT),.+]]></query>
+      <query name="guest" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>WolfieNet-Guest),.+]]></query>
+    </queries>
+    <comment>New 1/29/2020, is it being fed yet</comment>
+    <notes></notes>
+  </log>
+  <log name="NOC ddn01" group="voip" status="removed" nick="voipdns_old">
+    <description>Wifi and VOIP DNS</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>129.49.7.224</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.7\.224\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>Fixed on 1/29/2020, see new entry</comment>
+    <notes></notes>
+  </log>
+  <log name="NOC ddn01" group="voip" status="good" nick="voipdns">
+    <description>Wifi and VOIP DNS</description>
+    <owner>NOC;Behzad Barzideh;behzad.barzideh@stonybrook.edu</owner>
+    <source>129.49.101.254</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.101\.254\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>Changed from previous entry, IP of source corrected from 129.49.7.224</comment>
+    <notes></notes>
+  </log>
+  <log name="Infoblox_whoisthere" group="dns" status="good" nick="dnsauth">
+    <description>DNS-Auth-02, DNS</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>129.49.7.250</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.7\.250\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Infoblox_itisme_b" group="dns" status="removed" nick="itismeb">
+    <description>Infoblox DNS itisme_b</description>
+    <owner>NOC;Behzad Barzideh;behzad.barzideh@stonybrook.edu</owner>
+    <source>129.49.7.252</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.2\.252\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="IPAM Management 1" group="ipam" status="failed" nick="ipam1">
+    <description>IPAM Management Logs 1</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>129.49.200.29</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.200\.29\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>New, 1/29/2020, is it being fed yet</comment>
+    <notes></notes>
+  </log>
+  <log name="IPAM Management 2" group="ipam" status="failed" nick="ipam2">
+    <description>IPAM Management Logs 2</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>129.49.200.31</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.200\.31\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>New, 1/29/2020, is this being fed yet</comment>
+    <notes></notes>
+  </log>
+  <log name="CPPM 1" group="wifi" status="failed" nick="cppm1">
+    <description>Clear Pass Policy Manager Srv 1</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>129.49.200.252</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.200\.252\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>New, 1/29/2020, is this being fed yet</comment>
+    <notes></notes>
+  </log>
+  <log name="CPPM 2" group="wifi" status="failed" nick="cppm2">
+    <description>Clear Pass Policy Manager Srv 2</description>
+    <owner>NOC;Bezhad Barzideh;behzad.barzideh@stonybrook.edu</owner>
+    <source>129.49.200.253</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.200\.253\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>Existing, failed. Awaiting repair</comment>
+    <notes></notes>
+  </log>
+  <log name="CPPM 3" group="wifi" status="failed" nick="cppm3">
+    <description>Clear Pass Policy manager Srv 3</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>129.49.200.254</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.200\.254\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>new, 1/29/2020, is this being fed yet</comment>
+    <notes></notes>
+  </log>
+  <log name="Systems ROOTDC" group="ad" status="failed" nick="rootdc1">
+    <description>Campus DC</description>
+    <owner>systems;Brian Heller;brian.heller@stonybrook.edu</owner>
+    <source>129.49.23.113</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.23\.113\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Systems ADDC1" group="ad" status="failed" nick="addc1">
+    <description>Campus DC</description>
+    <owner>systems;Brian Heller;brian.heller@stonybrook.edu</owner>
+    <source>129.49.23.114</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.23\.114\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Systems ROOTDC2" group="ad" status="good" nick="rootdc2">
+    <description>Campus DC</description>
+    <owner>systems;Brian Heller;brian.heller@stonybrook.edu</owner>
+    <source>129.49.23.115</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.23\.115\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Systems ADDC2" group="ad" status="good" nick="addc2">
+    <description>Campus DC</description>
+    <owner>systems;Brian Heller;brian.heller@stonybrook.edu</owner>
+    <source>129.49.23.121</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.23\.121\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Systems ADDC3" group="ad" status="good" nick="addc3">
+    <description>Campus DC</description>
+    <owner>systems;Brian Heller;brian.heller@stonybrook.edu</owner>
+    <source>129.49.23.148</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.23\.148\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="IACS Syslog" group="iacs" status="failed" nick="iacs">
+    <description>IACS Syslogs, auth mostly</description>
+    <owner>IACS;Firat Coskun;firat.coskun@stonybrook.edu</owner>
+    <source>129.49.82.54</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.82\.54\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>Check back with John/Firat/Dan in a month or two, they are rengineering their login node</comment>
+    <notes></notes>
+  </log>
+  <log name="Shibboleth-LB-PUB" group="systems" status="good" nick="shib">
+    <description>Shibboleth Server</description>
+    <owner>Brian Heller;brian.heller@stonybrook.edu</owner>
+    <source>129.49.203.81</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.203\.81\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Shibboleth-FTMG2-PUB" group="shibboleth" status="failed" nick="shib1">
+    <description>Shibboleth Server</description>
+    <owner>systems;Brian Heller;brian.heller@stonybrook.edu</owner>
+    <source>129.49.203.110</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.203\.110\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Shibboleth-SSO.CC" group="shibboleth" status="failed" nick="shib2">
+    <description>Shibboleth Server</description>
+    <owner>systems;Brian Heller;brian.heller@stonybrook.edu</owner>
+    <source>129.49.203.117</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.203\.117\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Infoblox_darkside" group="dns" status="removed" nick="darkside">
+    <description>Reznet/CompSci DNS</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>130.245.255.4</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^130\.245\.255\.4\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>Removed 1/29/2020</comment>
+    <notes></notes>
+  </log>
+  <log name="Infoblox REZ1 DHCP" group="dhcp" status="good" nick="reznet1">
+    <description>Reznet DHCP (aka darkside)</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>130.245.255.11</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^130\.245\.255\.11\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <queries>
+      <!-- DHCP Sequence, DISCOVER, OFFER, REQUEST, ACK -->
+      <query name="teest" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>[^\\]+)\S+\s+dhcpd\[\d+\]\:\s+DHCPDISCOVER\s+from\s+(?P<macaddress>\S+)(\s+\((?P<devname>[^\)]+)\)){0,1}\s+via\s+(?P<interface>\S+)\s+TransID\s+(?P<transactionid>\S+)(?P<remainder>.*)]]></query>
+      <query name="discover" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>[^\\]+)\S+\s+dhcpd\[\d+\]\:\s+DHCPDISCOVER\s+from\s+(?P<macaddress>\S+)(\s+\((?P<devname>[^\)]+)\)){0,1}\s+via\s+(?P<interface>\S+)\s+TransID\s+(?P<transactionid>\S+)(?P<remainder>.*)]]></query>
+      <query name="offer" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>[^\\]+)\S+\s+dhcpd\[\d+\]\:\s+DHCPOFFER\s+on\s+(?P<offeredip>\S+)\s+to\s+(?P<macaddress>\S+)(\s+\((?P<devname>[^\)]+)\)){0,1}\s+via\s+(?P<interface>\S+)\s+relay\s+(?P<relay>\S+)\s+lease-duration\s+(?P<duration>\d+)\s+offered-duration\s(?P<offeredduration>\d+)(?P<remainder>.*)]]></query>
+      <query name="request" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>[^\\]+)\S+\s+dhcpd\[\d+\]\:\s+DHCPREQUEST\s+for\s+(?P<requestedip>\S+)(\s+\((?P<unknown1>[^\)]+)\)){0,1}\s+from\s+(?P<macaddress>\S+)(\s+\((?P<devname>[^\)]+)\)){0,1}\s+via\s+(?P<interface>\S+)\s+TransID\s+(?P<transactionid>\S+)(?P<remainder>.*)]]></query>
+      <query name="ack" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>[^\\]+)\S+\s+dhcpd\[\d+\]\:\s+DHCPACK\s+on\s+(?P<assignedip>\S+)\s+to\s+(?P<macaddress>\S+)(\s+\((?P<devname>[^\)]+)\)){0,1}\s+via\s+(?P<interface>\S+)\s+relay\s+(?P<relay>\S+)\s+lease\-duration\s+(?P<leaseduration>\d+)(?P<remainder>.*)]]></query>
+    </queries>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Infoblox REZ2 DNS" group="dns" status="good" nick="reznet2">
+    <description>Reznet DNS (aka darkside)</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>130.245.255.12</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^130\.245\.255\.12\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Aruba M1" group="wifi" status="removed" nick="arubam1">
+    <description>Aruba M1 Rez wifi controller</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>130.245.255.17</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^130\.245\.255\.17\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>Removed 1/29/2020</comment>
+    <notes></notes>
+  </log>
+  <log name="Aruba M2" group="wifi" status="removed" nick="arubam2">
+    <description>Aruba M2 Rez wifi controller</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>130.245.255.19</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^130\.245\.255\.19\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>Removed 1/29/2020</comment>
+    <notes></notes>
+  </log>
+  <log name="Wificontroller-Tabler" group="wifi" status="removed" nick="arubatabler">
+    <description>Aruba Tabler Wifi controller</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>130.245.255.24</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^130\.245\.255\.24\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>Removed 1/29/2020</comment>
+    <notes></notes>
+  </log>
+  <log name="Rez Aruba Wifi Ctrl 01" group="wifi" status="good" nick="arubarez1">
+    <description>Resnet Wifi Controller 01</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>130.245.255.31</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^130\.245\.255\.31\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <streamers>
+	<streamer name="iot" type="script">iot.py</streamer>
+    </streamers>
+    <queries>
+      <query name="users" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>[^,]+),.+]]></query>
+      <query name="iot" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>WolfieNet-IoT),.+]]></query>
+      <query name="guest" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>WolfieNet-Guest),.+]]></query>
+    </queries>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Rez Aruba Wifi Ctrl 02" group="wifi" status="failed" nick="arubarez2">
+    <description>Rsenet Wifi Controller 02</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>130.245.255.32</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^130\.245\.255\.32\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <streamers>
+	<streamer name="iot" type="script">iot.py</streamer>
+    </streamers>
+    <queries>
+      <query name="users" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>[^,]+),.+]]></query>
+      <query name="iot" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>WolfieNet-IoT),.+]]></query>
+      <query name="guest" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>WolfieNet-Guest),.+]]></query>
+    </queries>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="Rez Aruba Ctrl 03" group="wifi" status="failed" nick="arubarez3">
+    <description>Resnet Wifi controller 3</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>130.245.255.33</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^130\.245\.255\.33\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <streamers>
+	<streamer name="iot" type="script">iot.py</streamer>
+    </streamers>
+    <queries>
+      <query name="users" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>[^,]+),.+]]></query>
+      <query name="iot" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>WolfieNet-IoT),.+]]></query>
+      <query name="guest" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>WolfieNet-Guest),.+]]></query>
+    </queries>
+    <comment>New 1/29/2020, is this being fed yet</comment>
+    <notes></notes>
+  </log>
+  <log name="Rez Aruba Ctrl 04" group="wifi" status="failed" nick="arubarez4">
+    <description>Reznet/CompSci DNS</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>130.245.255.34</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^130\.245\.255\.34\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <streamers>
+	<streamer name="iot" type="script">iot.py</streamer>
+    </streamers>
+    <queries>
+      <query name="users" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>[^,]+),.+]]></query>
+      <query name="iot" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>WolfieNet-IoT),.+]]></query>
+      <query name="guest" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>WolfieNet-Guest),.+]]></query>
+    </queries>
+    <comment>New 1/29/2020, is this being fed yet</comment>
+    <notes></notes>
+  </log>
+  <log name="NOC/TLT TLTFW-Act" group="firewall" status="good" nick="tltpalo">
+    <description>Active TLT Firewall</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>172.16.200.31</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^172\.16\.200\.\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="NOC/TLT TLTFW_Pas" group="firewall" status="good" nick="tltpalopasv">
+    <description>Passive TLT Firewall</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>172.16.200.32</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^172\.16\.200\.32\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>Passive FW, not feeding logs until active FW is down, failed state is normal</comment>
+    <notes></notes>
+  </log>
+  <log name="NOC/FSA FSAFW-Act" group="firewall" status="good" nick="fsapalo">
+    <description>Active FSA Firewall</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>172.16.200.33</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^172\.16\.200\.33\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="NOC/FSA FSAFW-Pas" group="firewall" status="good" nick="fsapalopasv">
+    <description>Passive FSA Firewall</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>172.16.200.34</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^172\.16\.200\.34\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>Passive FW, not feeding logs until active FW is down, failed state is normal</comment>
+    <notes></notes>
+  </log>
+  <log name="NOC SBU-PA-7080_Firewall_2 HA PA" group="firewall" status="good" nick="campuspalo">
+    <description>pfwRez/pfwAdm/Guest/etc Border firewall</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>172.16.200.35</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^172\.16\.200\.35\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>Main border fw</comment>
+    <notes>
+      Receive Time, Serial Number, Type, Subtype,Generated Time, Source IP, Destination IP, NAT Source IP, NAT Destination IP, Rule Name, Source User, Destination User, Application, Virtual System, Source Zone, Destination Zone, Ingress Interface, Egress Interface, Log Forwarding Profile, Session ID, Repeat Count, Source Port, Destination Port, NAT Source Port, NAT Destination Port, Flags, Protocol, Action, Bytes, Bytes Sent, Bytes Received, Packets, Start Time, Elapsed Time,Category,Sequence Number, Action Flags, Source Location, Destination Location, Packets Sent, Packets Received, Session End Reason, Device Group Hierarchy Level 1, Device Group Hierarchy Level 2, Device Group Hierarchy Level 3,Device Group Hierarchy Level 4, Virtual System Name, Device Name, Action Source,Source VM UUID,Destination VM UUID,Tunnel ID/IMSI,Monitor Tag/IMEI,Parent Session ID,Parent Start Time,Tunnel Type,SCTP Association ID,SCTP Chunks,SCTP Chunks Sent,SCTP Chunks Received
+      receive_time,serial,type,subtype,time_generated,src,dst,natsrc,natdst,rule,srcuser,dstuser,app,vsys,from,to,inbound_if,outbound_if,logset,sessionid,repeatcnt,sport,dport,natsport,natdport,flags,proto,action,bytes,bytes-sent,bytes_received,packets,start,elapsed,category,seqno,actionflags,srcloc,dstloc,pkts_sent,pkts_received,session_end_reason,dg_hier_level_1,dg_hier_level_2,dg_hier_level_3,dg_hier_level_4,src_uuid,dst_uuid,tunnelid/imsi,monitortag/imei,parent_session_id,parent_start_time,tunnel,assoc_id,chunks,chunks_sent,chunks_received
+
+      Receive Time				Time the log was recieved at the management plane
+      Serial Number				Serial number of the firewall that generated the log
+      Type					Specifies the type of log; value is TRAFFIC
+      Subtype					Subtype of traffic log; values are start, end, drop, and deny (drop, before session id and no rule allows it, deny, session id'd and there is a rule to block, or no rule to allow
+      *Generated Time				Time the log was generated on the dataplane
+      Source IP				Original session source IP address
+      Destination IP				Original session destination IP address
+      NAT Source IP				If Source NAT performed, the post-NAT Source IP address
+      NAT Destination IP			If Destination NAT performed, the post-NAT Destination IP address
+      Rule Name				Name of the rule that the session matched
+      Source User				Username of the user who initiated the session
+      Destination User			Username of the user to which the session was destined
+      Application				Application associated with the session
+      *Virtual System				Virtual System associated with the session
+      Source Zone				Zone the session was sourced from
+      Destination Zone			Zone the session was destined to
+      Ingress Interface			Interface that the session was sourced form
+      Egress Interface			Interface that the session was destined to
+      Log Forwarding Profile			Log Forwarding Profile that was applied to the session
+      *Session ID				An internal numerical identifier applied to each session
+      Repeat Count				Number of sessions with same Source IP, Destination IP, Application, and Subtype seen within 5 seconds; used for ICMP only
+      Source Port				Source port utilized by the session
+      Destination Port			Destination port utilized by the session
+      NAT Source Port				Post-NAT source port
+      NAT Destination Port			Post-NAT destination port
+      Flags					32-bit field that provides details on session; this field can be decoded by AND-ing the values with the logged value
+      Protocol				IP protocol associated with the session
+      Action					Action taken for the session; possible values are
+      Bytes					Number of total bytes (transmit and receive) for the session
+      Bytes Sent				Number of bytes in the client-to-server direction of the session (except PA-4000 series)
+      Bytes Received				Number of bytes in the server-to-client direction of the session (except PA-4000 series)
+      Packets					Number of total packets (transmit and receive) for the session
+      Start Time				Time of session start
+      Elapsed Time				Elapsed time of the session
+      Category				URL category associated with the session (if applicable)
+      *Sequence Number				A 64-bit log entry identifier incremented sequentially; each log type has a unique number space. This field is not supported on PA-7000 Series firewalls
+      *Action Flags				A bit field indicating if the log was forwarded to Panorama
+      Source Location				Source country or Internal region for private addresses; maximum length is 32 bytes
+      Destination Location			Destination country or Internal region for private addresses. Maximum length is 32 bytes
+      Packets Sent				Number of client-to-server packets for the session (not for 4K series)
+      Packets Received			Number of server-to-client packets for the session
+      Session End Reason			The reason a session terminated. If the termination had multiple causes, this field displays only the highest priority reason. The possible session end reason values are as follows, in order of priority (where the first is highest)
+      *Device Group Hierarchy Level 1		A sequence of identification numbers that indicate the device group’s location within a device group hierarchy.
+      *Device Group Hierarchy Level 2
+      *Device Group Hierarchy Level 3
+      *Device Group Hierarchy Level 4
+      *Virtual System Name			The name of the virtual system associated with the session; only valid on firewalls enabled for multiple virtual systems
+      *Device Name				The hostname of the firewall on which the session was logged
+      *Action Source				Specifies whether the action taken to allow or block an application was defined in the application or in policy. The actions can be allow, deny, drop, reset- server, reset-client or reset-both for the session.
+      *Source VM UUID (src_uuid)		Identifies the source universal unique identifier for a guest virtual machine in the VMware NSX environment
+      *Destination VM UUID (dst_uuid)		Identifies the destination universal unique identifier for a guest virtual machine in the VMware NSX environment
+      *Tunnel ID/IMSI (tunnelid/imsi)		International Mobile Subscriber Identity (IMSI) is a unique number allocated to each mobile subscriber in the GSM/UMTS/EPS system. IMSI shall consist of decimal digits (0 through 9) only and maximum number of digits allowed are 15
+      *Monitor Tag/IMEI (monitortag/imei)	International Mobile Equipment Identity (IMEI) is a unique 15 or 16 digit number allocated to each mobile station equipment
+      *Parent Session ID (parent_session_id)	ID of the session in which this session is tunneled. Applies to inner tunnel (if two levels of tunneling) or inside content (if one level of tunneling) only
+      *Parent Start Time (parent_start_time)	Year/month/day hours:minutes:seconds that the parent tunnel session began
+      *Tunnel Type (tunnel)			Type of tunnel, such as GRE or IPSec
+      *SCTP Association ID (assoc_id)		Number that identifies all connections for an association between two SCTP endpoints.
+      *SCTP Chunks (chunks)			Sum of SCTP chunks sent and received for an association.
+      *SCTP Chunks Sent (chunks_sent)		Number of SCTP chunks sent for an association.
+      *SCTP Chunks Received (chunks_received)	Number of SCTP chunks received for an association.
+
+      Subtype
+      start—session started
+      end—session ended
+      drop—session dropped before the application is identified and there is no rule that allows the session.
+      deny—session dropped after the application is identified and there is a rule to block or no rule that allows the session.
+
+      Flags Fields (ANDed to remove, OR'ed to add)
+      0x80000000 —session has a packet capture (PCAP)
+      0x02000000 —IPv6 session
+      0x01000000 —SSL session was decrypted (SSL Proxy)
+      0x00800000 —session was denied via URL filtering
+      0x00400000 —session has a NAT translation performed (NAT)
+      0x00200000 —user information for the session was captured via the captive portal (Captive Portal)
+      0x00080000 —X-Forwarded-For value from a proxy is in the source user field
+      0x00040000 —log corresponds to a transaction within a http proxy session (Proxy Transaction)
+      0x00008000 —session is a container page access (Container Page)
+      0x00002000 —session has a temporary match on a rule for implicit application dependency handling. Available in PAN-OS 5.0.0 and above.
+      0x00000800 —symmetric return was used to forward traffic for this session
+
+      Action
+      allow—session was allowed by policy
+      deny—session was denied by policy
+      drop—session was dropped silently
+      drop-icmp—session was silently dropped with an ICMP unreachable message to the host or application
+      reset-both—session was terminated and a TCP reset is sent to both the sides of the connection
+      reset-client—session was terminated and a TCP reset is sent to the client
+      reset-server—session was terminated and a TCP reset is sent to the server
+
+      Session End Reason
+      threat— The firewall detected a threat associated with a reset, drop, or block (IP address) action.
+      policy-deny— The session matched a security rule with a deny or drop action.
+      decrypt-cert-validation— The session terminated because you configured the firewall to block SSL forward proxy decryption or SSL inbound inspection when the session uses client authentication or when the session uses a server certificate with any of the following conditions: expired, untrusted issuer, unknown status, or status verification time-out. This session end reason also displays when the server certificate produces a fatal error alert of type bad_certificate, unsupported_certificate, certificate_revoked, access_denied, or no_certificate_RESERVED (SSLv3 only).
+      decrypt-unsupport-param— The session terminated because you configured the firewall to block SSL forward proxy decryption or SSL inbound inspection when the session uses an unsupported protocol version, cipher, or SSH algorithm. This session end reason is displays when the session produces a fatal error alert of type unsupported_extension, unexpected_message, or handshake_failure.
+      decrypt-error— The session terminated because you configured the firewall to block SSL forward proxy decryption or SSL inbound inspection when firewall resources or the hardware security module (HSM) were unavailable. This session end reason is also displayed when you configured the firewall to block SSL traffic that has SSH errors or that produced any fatal error alert other than those listed for the decrypt-cert-validation and decrypt-unsupport-param end reasons.
+      tcp-rst-from-client— The client sent a TCP reset to the server.
+      tcp-rst-from-server— The server sent a TCP reset to the client.
+      resources-unavailable— The session dropped because of a system resource limitation. For example, the session could have exceeded the number of out-of-order packets allowed per flow or the global out-of-order packet queue.
+      tcp-fin— One host or both hosts in the connection sent a TCP FIN message to close the session.
+      tcp-reuse— A session is reused and the firewall closes the previous session.
+      decoder— The decoder detects a new connection within the protocol (such as HTTP-Proxy) and ends the previous connection.
+      aged-out— The session aged out.
+      unknown— This value applies in the following situations:
+      Session terminations that the preceding reasons do not cover (for example, a clear session all command).
+      For logs generated in a PAN-OS release that does not support the session end reason field (releases older than PAN-OS 6.1), the value will be unknown after an upgrade to the current PAN-OS release or after the logs are loaded onto the firewall.
+      In Panorama, logs received from firewalls for which the PAN-OS version does not support session end reasons will have a value of unknown.
+      n/a— This value applies when the traffic log type is not end.
+    </notes>
+  </log>
+  <log name="NOC/UPD UPDFW-Act" group="firewall" status="good" nick="updpalo">
+    <description>Active UPD Firewall</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>172.16.200.37</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^172\.16\.200\.37\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="NOC/UPD UPDFW-Pas" group="firewall" status="good" nick="updpalopasv">
+    <description>Passive UPD Firewall</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>172.16.200.38</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^172\.16\.200\.38\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>Passive UPD firewall, failed state is normal. Feeds logs when active fw is down</comment>
+    <notes></notes>
+  </log>
+  <log name="NOC SBU-PA-7080_firewall_Blocker" group="firewall" status="good" nick="campuspalo">
+    <description>Border Firewall</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>172.16.200.39</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^172\.16\.200\.39\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="NOC VPNFW-Act" group="firewall" status="good" nick="vpnpalo">
+    <description>Active VPN Firewall</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>172.16.200.55</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^172\.16\.200\.55\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <log name="NOC VPNFW-Pas" group="firewall" status="good" nick="vpnpalopasv">
+    <description>Passive VPN Firewall</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>172.16.200.56</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^172\.16\.200\.56\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>Passive fw, failed state is normal. Sends logs when active fw is down</comment>
+    <notes></notes>
+  </log>
+  <log name="NOC WIFI_AUTH_SONICWALL1" group="firewall" status="removed" nick="sonicwall">
+    <description>Sonicwall Wifi Auth test</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>38.105.236.163</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^38\.105\.236\.163\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment>Removed 1/29/2020</comment>
+    <notes></notes>
+  </log>
+  <log name="Infoblox_mewho (DNS-Auth-03)" group="dns" status="failed" nick="mewho">
+    <description>DNS-Auth 3</description>
+    <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
+    <source>199.110.254.244</source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^199\.110\.254\.244\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  <!--
+  <log name="" group="" status="" nick="">
+    <description></description>
+    <owner></owner>
+    <source></source>
+    <targets>
+      <target comment="Masergy">129.49.31.44</target>
+    </targets>
+    <parse-info>
+      <name>^129\.49\.\.\.log\.[0-9]{8}(\.gz){0,1}$</name>
+    </parse-info>
+    <comment></comment>
+    <notes></notes>
+  </log>
+  -->
+
+<!--
+ IP Reg : (\d{1,3}\.){3)\d{1,3}
+ Mac Reg: ([a-f\d]{2}\:){5}[a-f\d]{2}
+-->
+</logs>

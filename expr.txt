@@ -1,0 +1,1 @@
+^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>\S+)\s+(\S+\s+){4}(<[^>]+>)\s+Selected\s+server\s+[^\=]+[^\;]+;\s+user\=(?P<user>[^,]+),\s+essid\=(?P<essid>[^,]+),.+$
