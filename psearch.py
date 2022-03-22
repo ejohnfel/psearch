@@ -3,6 +3,7 @@
 import os, sys, io, socket, select
 import re, random, queue
 import argparse,configparser,logging
+from collections import deque
 import xml, json, csv, hashlib
 import xml.etree.ElementTree as ET
 import gzip
@@ -15,18 +16,16 @@ import pdb
 # For Keyboard character scanning
 import termios, fcntl
 
-from datetime import datetime
-from datetime import timedelta
-from datetime import date
-from datetime import time
+from datetime import datetime,timedelta,date,time
+import time as tm
 
 import multiprocessing
 from concurrent.futures import ProcessPoolExecutor
 
-import time
 
 import py_helper as ph
-from py_helper import DebugMode,CmdLineMode,Pause,Log,Msg,DbgMsg,DbgAuto,TmpFilename,ItemID,Taggable
+from py_helper import DebugMode,CmdLineMode,Pause,Log,Msg,ErrMsg,DbgMsg,DbgAuto
+from py_helper import TmpFilename,ItemID,Taggable,MountHelper, TimestampConverter
 
 #
 # Globals
@@ -37,39 +36,51 @@ DEBUGSRVARGS = [ '--debug','--trace','--server','--out','users.txt','--query','u
 DEBUGCLTARGS = [ '--debug','--trace','--client','sol.infosec.stonybrook.edu' ]
 
 # Version Info
-VERSION = "1.0"
+Version = "1.0"
 
 # Config Stuff
-ConfigFile="config.ini"
+ConfigFile="psearch.ini"
+# Config Parser Object
 AppConfig = None
 
 # Parser
 Parser = None
+# ShowCmd Choices
+ShowChoices = [ "all", "good", "failed", "sources" ]
+
 # Processed Arguments
 Args = None
+
+# Log Metas
+LogMetas = list()
 
 # For interactive Inspection
 searchManager = None
 
 # Default Tracer States Filename (must be local to execution)
 TRACEStatefile = "trace_ex.txt"
+# Tracer
+tracer = None
 
 # Thread terminate semaphore
 TerminateFlag = ""
 
-# Random Seed Init
-random.seed()
+# Mounts (for log sources)
+Mounts = list()
+
+# Log Mount
+LogMount = "/srv/masergy"
 
 # Log sources list
-LOGSOURCES="/srv/storage/data/logsources.xml"
+LogSources="/srv/storage/data/logsources.xml"
 # Locations where files are
-LOGS=[ "/srv/equallogic/fsm_logs", "/srv/array2/fsm_logs" ]
+LogLocations=[ "/srv/equallogic/fsm_logs", "/srv/array2/fsm_logs", LogMount ]
 
 # Temp Space for intemediate output
-TEMPSPACE = "/tmp"
+TempSpace = "/tmp"
 
-# Defaults
-DEFAULT_WAIT = 585
+# Default Seconds to Wait For a Connection to Client or Server
+DefaultConnectionWait = 585
 
 # Server Defaults
 DefaultAddress = "0.0.0.0"
@@ -85,9 +96,6 @@ logInfo = [ ]
 # App Helper
 app = None
 
-# Tracer
-tracer = None
-
 # Logging Config
 logFilename = "/tmp/psearch.log.{}".format(os.getpid())
 logging.basicConfig(filename=logFilename, level=logging.DEBUG)
@@ -97,7 +105,9 @@ logger = logging.getLogger(__name__)
 # Lambdas
 #
 
-# None so far
+CreationTime = lambda filename : datetime.fromtimestamp(os.path.getctime(filename))
+ModificationTime = lambda filename : datetime.fromtimestamp(os.path.getmtime(filename))
+AccessTime = lambda filename : datetime.fromtimestamp(os.path.getatime(filename))
 
 #
 # Top Level Functions
@@ -238,9 +248,187 @@ def SearchLog(log,patterns,streamers,limit,termflag):
 
 	return lines
 
+# Show Log Info
+# Params:
+# showpattern - True/False, show the log file name pattern expression
+# filter - optional expression to filter results on (inclusive)
+# status - optional, if provided, list logs with given status
+def ShowLogsInfo(showpattern=False,filter=None,status=None,showCounts=False,sample=None,headtail=False):
+	"""Show Logs Info"""
+
+	global LogMetas, LogLocations
+
+	fmt = "{:12} {:13} {:6} {:20} "
+	columns = [ "alias", "groups", "status", "name" ]
+
+	if sample != None:
+		sample = int(sample) if sample != 'all' else -1
+	else:
+		sample = 0
+
+	if showpattern:
+		fmt += "{:45} "
+		columns.append("pattern")
+
+	if status == "all": status = None
+
+	Msg(fmt.format(*columns))
+
+	for meta in LogMetas:
+		if status and not re.match(status,meta.Status):
+			continue
+
+		if filter:
+			prog = re.compile(filter)
+
+			isMatch = False
+
+			searchables = meta.Searchables()
+
+			for value in searchables:
+				if prog.match(value):
+					isMatch = True
+					break
+
+			if not isMatch:
+				continue
+
+		statusField = meta.Status
+
+		if showCounts:
+			count = 0
+
+			for logPath in LogLocations:
+				count += len(meta.GetLogFiles(folder=logPath))
+
+			statusField = f"{meta.Status}/{count}"
+
+		columns = [ meta.Nickname, ",".join(meta.LogGroups), statusField, meta.Name ]
+
+		if showpattern:
+			columns.append(meta.ParseInfo[0])
+
+		Msg(fmt.format(*columns))
+
+		if sample > 0:
+			# Show 'sample' lines from latest log
+
+			files = meta.GetLogFiles(folder=LogLocations[0])
+			file = files[random.randint(0,len(files)-1)]
+
+			with file.Open() as f_in:
+				head = 0
+				count = 0
+
+				queue = deque(maxlen=sample)
+
+				for rawline in f_in:
+					count += 1
+					head += 1
+
+					decoded, used, line = file.Decode(rawline)
+
+					queue.append(line)
+
+					if (headtail and head == sample) or (not headtail and count == sample):
+						if headtail:
+							Msg(ph.CombiBar("Head of Log"))
+						else:
+							Msg(f"Log sample - {sample} lines")
+
+						for item in queue:
+							Msg(item)
+
+						if not headtail:
+							break
+
+				if headtail:
+					Msg(ph.CombiBar("\nTail for Log"))
+					for item in queue:
+						Msg(item)
+
+		elif sample < 0:
+			# Dump latest log
+
+			files = meta.GetLogFiles(folder=LogLocations[0])
+			file = files[random.randint(0,len(files)-1)]
+
+			with file.Open() as f_in:
+				for rawline in f_in:
+					decoded, used, line = file.Decode(rawline)
+
+					Msg(line)
+
+# Show list of existing logs using supplied names (Defaults to only "good" logs)
+def ShowLogs(status,logspec):
+	"""Show Logs"""
+
+	global LogMetas, LogLocations
+
+	valids = [ "all", "good", "failed" ]
+
+	if not status in valids:
+		status = "good"
+
+	metas = [ meta for meta in LogMetas if meta.Status == status or status == "all" ]
+
+	selected = list()
+
+	if logspec != None:
+		selected = [ meta for meta in metas if logspec in meta.Searchables() ]
+	else:
+		selected.extend(metas)
+
+	for logPath in LogLocations:
+		Msg(f"Logs in Storage Location : {logPath}\n" + "=" * 40)
+
+		for meta in selected:
+			logs = meta.GetLogFiles(folder=logPath)
+
+			Msg(f"Logs Of {meta.Name} / {meta.Nickname} / {meta.Description} - {len(logs)}")
+
+			for log in logs:
+				Msg(f"{log.Filename}")
+
 #
 # Classes
 #
+
+# Mounter : MountHelper with some Safety Checks
+class Mounter(MountHelper):
+	"""Mount Helper With Safety Check"""
+
+	# Already Mounted Flag
+	AlreadyMounted = False
+
+	# Init Instance
+	def __init__(self,path=None):
+		"""Init instance"""
+		super().__init__(path)
+
+	# Hide Mount, Add Safety Check
+	def Mount(self,ignore=False,sudome=False):
+		"""Safe Mount"""
+
+		if self.Mounted():
+			self.AlreadyMounted = True
+		else:
+			self.AlreadyMounted = False
+
+			super().Mount(ignore,sudome)
+
+	# Unmount
+	def Unmount(self,ignore=False,sudome=False):
+		"""Unmount Mounted Volume, Safely"""
+
+		if not self.AlreadyMounted and self.Mounted():
+			super().Unmount(ignore,sudome)
+
+	# Unmount
+	def Umount(self,ignore=False,sudome=False):
+		"""Shortcut for Die Hard Unix Pipple"""
+		self.Unmount(ignore,sudome)
+
 
 # Title/Value Formatted Class
 class TitleValueFormatter:
@@ -394,6 +582,7 @@ class Tracable:
 
 	# Set State of Callerid (or clear) callerid for Trace Processing
 	def SetTraceState(self,traceCaller,state="none"):
+		"""Set Trace State"""
 
 		if type(traceCaller) is list:
 			for id in traceCaller:
@@ -472,6 +661,7 @@ class Tracable:
 
 	# Entering Trace Alias
 	def Entering(self,traceCaller,allow=True,postfix=""):
+		"""Issue Entering Trace Message"""
 
 		if allow and self.Enabled:
 			callerframe = inspect.currentframe().f_back
@@ -498,6 +688,8 @@ class Tracable:
 
 	# Inside Function Trace Statement
 	def Inside(self,traceCaller,allow=True,postfix=""):
+		"""Issue Inside Trace Message"""
+
 		if allow and self.Enabled:
 			callerframe = inspect.currentframe().f_back
 
@@ -524,6 +716,8 @@ class Tracable:
 
 	# Exitting Trace Alias
 	def Exitting(self,traceCaller,allow=True,postfix=""):
+		"""Issue Exitting Trace Message"""
+
 		if allow and self.Enabled:
 			callerframe = inspect.currentframe().f_back
 
@@ -703,9 +897,9 @@ class App(TitleValueFormatter,Taggable):
 
 		return elapsed
 
-	# Using supplied pattern, find matching metas from list
-	# Searches Name, Nickname and LogGroup
+	# Find Meta
 	def FindMeta(self,pattern,metas):
+		"""Find Metas That Match 'pattern', Name,Nickname nd LogGroup searched for pattern"""
 		tracer.Entering(self)
 
 		progs = []
@@ -741,8 +935,10 @@ class App(TitleValueFormatter,Taggable):
 
 		return found
 
-	# Load Log Meta Info
+	# Load Log Meta Info (deprecated 3/3/2022)
 	def LoadLogMeta(self,filename):
+		"""Load Log Meta Info File"""
+
 		tracer.Entering(self)
 
 		items = []
@@ -766,6 +962,8 @@ class App(TitleValueFormatter,Taggable):
 
 	# Attempt to Get Keyboard Input Without Blocking
 	def GetChar(self):
+		"""Get Keyboard Char if one Waiting, Otherwise, Continue"""
+
 		returnChar = None
 
 		fd = sys.stdin.fileno()
@@ -894,25 +1092,46 @@ class NamedQuery(Query):
 # Log Meta Data
 class LogMeta(TitleValueFormatter,Taggable,ItemID):
 	"""Log Source Meta Data Information Class"""
+
 	DateExpression = "^(?P<year>\d{4})(?P<month>\d{2})(?P<day>\d{2})$"
 
+	# Official Name of Log
 	Name = None
+	# Current Status of log, good or not good (i.e. being fed or stopped)
 	Status = None
+	# Primary Log Group (also in LogGroups)
 	LogGroup = None
+	# Log groups this log belongs to, CSV-Str
 	LogGroups = None
+	# Nickname of log (short name)
 	Nickname = None
+	# Description of Log
 	Description = None
+	# Log Owner
 	Owner = None
+	# IP Source of Log (Part of Name)
 	Source = None
+	# ???
 	Targets = None
+	# Parsing info (filename pattern)
 	ParseInfo = None
+	# ??
 	Streamers = None
+	# Named Queries
 	Queries = None
+	# Log Meta Comment
 	Comment = None
+	# Any Notes
 	Notes = None
 
 	# Init Instance
 	def __init__(self, xnode = None):
+		"""Init Instance"""
+
+		super(Taggable,self).__init__()
+		super(ItemID,self).__init__()
+		super(TitleValueFormatter,self).__init__()
+
 		self.Targets = list()
 		self.ParseInfo = list()
 		self.Queries = list()
@@ -925,6 +1144,8 @@ class LogMeta(TitleValueFormatter,Taggable,ItemID):
 
 	# Default Print
 	def Print(self):
+		"""Pretty Print Instance"""
+
 		self.Pfmt("ID",self.ID)
 		self.Pfmt("Name",self.Name)
 		self.Pfmt("Status",self.Status)
@@ -968,16 +1189,15 @@ class LogMeta(TitleValueFormatter,Taggable,ItemID):
 
 	# Read Data From XElement
 	def Read(self,xnode):
+		"""Read Log Meta Info From XNode"""
+
 		self.Name=xnode.attrib['name']
 		self.Nickname = xnode.attrib['nick']
 		loggroups = xnode.attrib['group']
 
-		if "," in loggroups:
-			self.LogGroup = loggroups.split(",")[0]
-		else:
-			self.LogGroup = loggroups
-
 		self.LogGroups = list(loggroups.split(","))
+
+		self.LogGroup = self.LogGroups[0]
 
 		self.Status=xnode.attrib['status']
 		self.Description=xnode.find("description").text
@@ -1002,6 +1222,8 @@ class LogMeta(TitleValueFormatter,Taggable,ItemID):
 
 	# Unpack Packed Line
 	def Unpack(self,lines):
+		"""Unpack a Packed Line of Meta Info"""
+
 		self.Name = lines.pop(0)
 		self.Nickname = lines.pop(0)
 		self.LogGroup = lines.pop(0)
@@ -1037,6 +1259,8 @@ class LogMeta(TitleValueFormatter,Taggable,ItemID):
 
 	# Pack Meta for Network Transfer
 	def Pack(self):
+		"""Pack Meta Into a Dat Line for XFer"""
+
 		lines = []
 
 		lines.append(self.Name)
@@ -1068,12 +1292,21 @@ class LogMeta(TitleValueFormatter,Taggable,ItemID):
 
 	# Return list of searchable fields
 	def Searchables(self):
-		lst = [ self.Nickname, self.LogGroup, self.LogGroups, self.Source, self.Owner ]
+		"""Return a List of Searchable Fields"""
+
+		lst = [ self.Nickname, self.LogGroup, self.Source, self.Owner ]
+
+		lst.extend(self.LogGroups)
 
 		return lst
 
 	# Convert File Date YYYYMMDD into Date
 	def ConvertStringToDate(self,dateString):
+		"""Convert YYMMDD date string into Date"""
+
+
+		# TODO: This can be fixed or use py_helper date conversions
+
 		year = date.today().year
 		month = date.today().month
 
@@ -1099,12 +1332,18 @@ class LogMeta(TitleValueFormatter,Taggable,ItemID):
 
 	# Convert Date into YYYYMMDD String
 	def ConvertDateToString(self,inputDate):
+		"""Convert Date Into YYYMMDD String"""
+
+		# TODO : Replace with python built in functionality or py_helper date conversion facilities
+
 		output = "{}{}{}".format(str(inputDate.year).zfill(4),str(inputDate.month).zfill(2),str(inputDate.day).zfill(2))
 
 		return output
 
 	# Get Archive Date
 	def GetDate(self,filename=None,match=None):
+		"""Get Date Encoded Into Filename (YYYYMMDD)"""
+
 		date_cvt = None
 
 		if filename:
@@ -1113,12 +1352,17 @@ class LogMeta(TitleValueFormatter,Taggable,ItemID):
 		if match:
 			filedate = match.group("date")
 
-			date_cvt = self.ConvertStringToDate(filedate)
+			if filedate != None:
+				date_cvt = self.ConvertStringToDate(filedate)
+			else:
+				date_cvt = ModificationTime(filename).date()
 
 		return date_cvt
 
 	# Get Matching Log Files
 	def GetLogFiles(self,folder,startDate=None,endDate=None):
+		"""Get Matching Log Files From Storage With Matching Dates"""
+
 		matching_items = [ ]
 
 		files = os.listdir(folder)
@@ -1196,6 +1440,40 @@ class LogMeta(TitleValueFormatter,Taggable,ItemID):
 				qrys.append(query)
 
 		return qrys
+
+	#
+	# Static Members
+	#
+
+	# LoadMetas
+	def LoadMetas(filename):
+		"""Load Log Metas from a Log Meta XML Source File"""
+
+		global tracer
+
+		tracer.Entering("LogMeta::LoadMetas")
+
+		metas = list()
+
+		if os.path.exists(filename):
+			try:
+				sources = ET.parse(filename)
+
+				root = sources.getroot()
+
+				xmetas = root.findall("log")
+
+				for meta in xmetas:
+					metas.append(LogMeta(meta))
+
+			except Exception as err:
+				ErrMsg(err,f"An error occurred attempting to open {filename}")
+		else:
+			Msg(f"{filename} does not exist")
+
+		tracer.Exitting("LogMeta::LoadMetas")
+
+		return metas
 
 # Log Class
 class Log(TitleValueFormatter,Taggable,ItemID):
@@ -1446,7 +1724,7 @@ class MsgPacket:
 			except BlockingIOError:
 				try_again = True
 				count += 1
-				time.sleep(0.25)
+				tm.sleep(0.25)
 			except Exception as err:
 				print(f"An error occurred receiving packet : {err}")
 
@@ -2404,7 +2682,7 @@ class RemoteSearcher(NetworkingBase,App):
 		tracer.Entering("RemoteSearcher::Connect")
 
 		if waitfor is None:
-			waitfor = DEFAULT_WAIT
+			waitfor = DefaultConnectionWait
 
 		started = datetime.now()
 
@@ -2428,7 +2706,7 @@ class RemoteSearcher(NetworkingBase,App):
 					DbgMsg(f"Server {self.Host}, not responding")
 					retry = False
 				else:
-					time.sleep(0.5)
+					tm.sleep(0.5)
 			except KeyboardInterrupt:
 				break
 			except OSError as oserr:
@@ -2747,9 +3025,17 @@ class SearchManager(App):
 	MatchCount = 0
 
 	# Init Instance
-	def __init__(self,storage_locations = None):
+	def __init__(self,storage_locations = None,log_metas=None):
+		# Hack for LogMetas
+		global LogMetas
+
 		if storage_locations:
 			self.StorageLocations.extend(storage_locations)
+
+		if log_metas:
+			self.LogMetas = log_metas
+		else:
+			self.LogMetas = LogMetas
 
 		self.SetMaxThreads()
 
@@ -2829,7 +3115,7 @@ class SearchManager(App):
 			self.MaxThreads = maxthreads if maxthreads > 0 else 1
 
 	# Helper Funtion for Getting Waittime on client.Connect()
-	def WaitTime(self,defaultTimeout=DEFAULT_WAIT):
+	def WaitTime(self,defaultTimeout=DefaultConnectionWait):
 		return int(self.Arguments.clientwait or str(defaultTimeout))
 
 	# Load Search Patterns From File
@@ -2876,6 +3162,7 @@ class SearchManager(App):
 
 		tracer.Exitting("SearchManager::ParseNamedQueries")
 
+	# Deprecated 3/3/2022
 	# Show Log Info
 	# Params:
 	# showpattern - True/False, show the log file name pattern expression
@@ -2938,6 +3225,7 @@ class SearchManager(App):
 				# Dump latest log
 				pass
 
+	# Deprecated 3/3/2022
 	# Show list of existing logs using supplied names (Defaults to only "good" logs)
 	def ShowLogs(self,loglist):
 		logList = loglist.split(",")
@@ -3106,7 +3394,7 @@ class SearchManager(App):
 
 		return proceed
 
-	# Get Log Metas
+	# Get Log Metas (Deprecated 3/3/2022)
 	def GetLogMetas(self,filename):
 		tracer.Entering("SearchManager::GetLogMetas")
 
@@ -3160,6 +3448,17 @@ class SearchManager(App):
 
 		args = self.Arguments
 
+		if args.live:
+			global Mounts
+
+			for mh in Mounts:
+				try:
+					mh.Mount(sudome=True)
+				except Exception as err:
+					ErrMsg(err,f"Could not mount {mh.Path}")
+
+		tsc = TimestampConverter()
+
 		if args.latest:
 			# Since some logs can straddle today and the day before, we include both
 			startDate = date.today() - timedelta(days=1)
@@ -3175,15 +3474,15 @@ class SearchManager(App):
 				low = args.range
 				high = args.range
 
-			startDate = lm.ConvertStringToDate(low)
-			endDate = lm.ConvertStringToDate(high)
+			startDate = tsc.ConvertTimestamp(low).date()
+			endDate = tsc.ConvertTimestamp(high).date()
 
 		if args.start:
-			startDate = lm.ConvertStringToDate(args.start)
+			startDate = tsc.ConvertTimestamp(args.start).date()
 			endDate = date.today()
 
 		if args.end:
-			endDate = lm.ConvertStringToDate(args.end)
+			endDate = tsc.ConvertTimestamp(args.end).date()
 
 			if not startDate:
 				startDate = endDate
@@ -3239,15 +3538,13 @@ class SearchManager(App):
 
 			self.Logs = sortedLogList
 
-		DbgMsg("Shit!",iftrue=(len(self.Logs) == 0),break_point=True)
-
 		tracer.Exitting("SearchManager::GetLogList")
 
 		return self.Logs
 
 	# Create Search Workers
-	def CreateWorkers(self):
-		global TEMPSPACE
+	def CreateWorkers(self,clientmode=False):
+		global TempSpace
 
 		tracer.Entering("SearchManager::CreateWorkers")
 
@@ -3260,7 +3557,7 @@ class SearchManager(App):
 			thread_patterns = [ ]
 
 			# Get Unnamed Patterns
-			thread_patterns.extend( [ Query(pattern) for pattern in self.Patterns ] )
+			thread_patterns.extend([ Query(pattern) for pattern in self.Patterns ])
 			# Get Named Queries
 			thread_patterns.extend([ query for query in log.Meta.GetQueries(self.NamedQueries) ])
 
@@ -3272,7 +3569,6 @@ class SearchManager(App):
 
 			Msg(f"Searching {log.Filename}...")
 
-
 			# Output Scenarios
 			# Clients default, dump into (default or alternate) NFS share
 			# Clients can choose temp space, but this means they have to transfer the file back
@@ -3282,15 +3578,15 @@ class SearchManager(App):
 			prefix = "logsearch_"
 			postfix = "_"+log.EncodedDateStr()
 
-			if not self.Arguments.client:
+			if not clientmode:
 				if self.Arguments.local or self.Arguments.tmp:
-					log.SetOutput(TmpFilename(folder=TEMPSPACE,prefix=prefix,postfix=postfix))
+					log.SetOutput(TmpFilename(folder=TempSpace,prefix=prefix,postfix=postfix))
 				else:
 					# Default to source folder of file
 					log.SetOutput(TmpFilename(file=log.Filename,prefix=prefix,postfix=postfix))
 			else:
 				if self.Arguments.local or self.Arguments.tmp:
-					log.SetOutput(TmpFilename(folder=TEMPSPACE,prefix=prefix,postfix=postfix))
+					log.SetOutput(TmpFilename(folder=TempSpace,prefix=prefix,postfix=postfix))
 				else:
 					# Default to source folder of file
 					log.SetOutput(TmpFilename(file=log.Filename,prefix=prefix,postfix=postfix))
@@ -3509,7 +3805,7 @@ class SearchManager(App):
 
 			while len(self.RemoteAssignments) > 0:
 				completed = self.Server.Process(self.LogMetas,self.Logs,self.Patterns,self.NamedQueries,self.Streamers,self.RemoteAssignments)
-				time.sleep(0.5)
+				tm.sleep(0.5)
 
 				elapsedTime = self.ElapsedTime(start)
 
@@ -3576,11 +3872,11 @@ class SearchManager(App):
 
 	# Client Search Manager
 	def ClientSearch(self,args):
-		global VERSION
+		global Version
 
 		tracer.Entering("SearchManager::ClientSearch")
 
-		DbgMsg(f"Version {VERSION}")
+		DbgMsg(f"SearchManager::ClientSearch - Version {Version}")
 
 		# Set Args
 		self.Arguments = args
@@ -3638,7 +3934,7 @@ class SearchManager(App):
 
 					# If there are no locally available logs, then we are only waiting on remoteClients
 					if len(self.Logs) == 0:
-						time.sleep(0.5)
+						tm.sleep(0.5)
 
 					# Cycle through the threads looking for completions.
 					# When a thread is complete, retrieve the output, dump it, add
@@ -3723,12 +4019,12 @@ class SearchManager(App):
 		Msg(f"Client Search/Dump completed - elapsed run time {elapsedTime}")
 
 	# Local Search
-	def LocalSearch(self,args):
-		global DefaultAddres,DefaultPort, VERSION
+	def LocalSearch(self,args,clientmode=False,servermode=False):
+		global DefaultAddres,DefaultPort, Version
 
 		tracer.Entering("SearchManager::LocalSearch")
 
-		DbgMsg(f"Version {VERSION}")
+		DbgMsg(f"SearchManager::LocalSearch - Version {Version}")
 
 		# Set Args
 		self.Arguments = args
@@ -3755,14 +4051,12 @@ class SearchManager(App):
 		# Init logCount (informational)
 		logCount = len(self.Logs)
 
-		DbgMsg("Shit",iftrue=(logCount == 0),break_point=True)
-
 		if logCount == 0:
 			Msg("No logs meet the supplied criteria, log count is zero",ignoreModuleMode=True)
 			return
 
 		# Start Server if asked for
-		if args.server:
+		if servermode:
 			Msg("Starting Server")
 			self.Server = SearchServer(host=DefaultAddress,port=DefaultPort)
 
@@ -3790,7 +4084,7 @@ class SearchManager(App):
 
 			# Create Threaded Workers if there are logs available
 			if len(self.Logs) > 0 and not self.Arguments.disablelocal:
-				self.CreateWorkers()
+				self.CreateWorkers(clientmode)
 
 			# If Server defined, process incoming comms
 			if self.Server:
@@ -3803,7 +4097,7 @@ class SearchManager(App):
 
 			# If there are no locally available logs, then we are only waiting on remoteClients
 			if len(self.Logs) == 0:
-				time.sleep(0.5)
+				tm.sleep(0.5)
 
 			# Cycle through the threads looking for completions.
 			# When a thread is complete, retrieve the output, dump it, add
@@ -3811,14 +4105,15 @@ class SearchManager(App):
 			self.CheckWorkers()
 
 			# Look for any keystrokes for InSearchMenu to pop up
-			result = self.GetChar()
+			if CmdLineMode():
+				result = self.GetChar()
 
-			if result:
-				proceed = self.InSearchMenu(startLogs=logCount,started=searchStarted,keyed_in=result)
+				if result:
+					proceed = self.InSearchMenu(startLogs=logCount,started=searchStarted,keyed_in=result)
 
-				if not proceed:
-					self.Touch(self.TerminateFlag)
-					break
+					if not proceed:
+						self.Touch(self.TerminateFlag)
+						break
 
 			# Check for terminate here since the InSearchMenu can request a terminate
 			if self.IfTerminate():
@@ -3852,7 +4147,7 @@ class SearchManager(App):
 
 # Main Loop
 def Search(args):
-	global TEMPSPACE, LOGS, LOGSOURCES, searchManager, tracer, app
+	global TempSpace, LogLocations, LogSources, searchManager, tracer, app
 
 	metas = []
 
@@ -3879,29 +4174,14 @@ def Search(args):
 	if args.query:
 		searchManager.ParseNamedQueries(args.query)
 
-	# Prep for show functions
-	if args.showgood or args.showfailed:
-		status = "^good$" if args.showgood else "^failed|removed$"
-
-	# Execute selected main function(s)
-
-	if args.show or args.showgood or args.showfailed:
-		# Show sources
-		searchManager.ShowLogsInfo(filter=args.include,status=status,showCounts=args.counts,sample=args.sample)
-	elif args.showp or args.showgood or args.showfailed:
-		# Show sources with file pattern
-		searchManager.ShowLogsInfo(showpattern=True,filter=args.include,status=status,showCounts=args.counts,sample=args.sample)
-	elif args.list:
-		searchManager.ShowLogs(args.list)
-	elif args.test:
-		pass
-	elif args.clean:
+	if args.clean:
 		searchManager.Clean(args)
-	elif args.logs or args.client:			# User requested log search or client mode
-		if args.client:				# Go into Client Mode
-			searchManager.ClientSearch(args)
-		else:					# Go into local search mode, with optional server thread
-			searchManager.LocalSearch(args)
+	elif args.logs:
+	#elif args.logs or args.client:			# User requested log search or client mode
+	#	if args.client:				# Go into Client Mode
+	#		searchManager.ClientSearch(args)
+	#	else:					# Go into local search mode, with optional server thread
+		searchManager.LocalSearch(args)
 	else:
 		Msg("You need to provide a log source or comma seperated list of log sources to search through")
 		Msg("Use the --show command line flag to see what logs are available")
@@ -3929,101 +4209,155 @@ def Search(args):
 def BuildParser():
 	"""Build Parser"""
 
-	global Parser
+	global Parser, ShowChoices, DefaultConnectionWait
 
 	Parser = argparse.ArgumentParser(description="Parallel Log Searcher")
 
+	subparsers = Parser.add_subparsers(help="commands",dest="command")
+
 	Parser.add_argument("--debug",action="store_true",help="Put script in debug mode")
 	Parser.add_argument("--config",help="Use supplied config file")
+	Parser.add_argument("--sources",help="Load alternate log sources meta data file")
+	Parser.add_argument("--logsrc",help="Path to log storage location, can be csv")
+	Parser.add_argument("--mount",action="store_true",help="If there are listed mountable filesystems, mount them for seaching")
 	Parser.add_argument("--trace",action="store_true",help="Enable tracing messages")
 	Parser.add_argument("--clean",action="store_true",help="Clean up temp files")
-	Parser.add_argument("--disablelocal",action="store_true",help="Disable local side searching")
-	Parser.add_argument("--silent",action="store_true",help="Suppress output (except debug output)")
-	Parser.add_argument("--index",help="Using the supplied named query, generate an index on hits")
-	Parser.add_argument("--sources",help="Load alternate log sources meta data file")
-	Parser.add_argument("--latest",action="store_true",help="Search only latest log")
-	Parser.add_argument("--range",help="Date Ranges for search (YYYYMMDD format)")
-	Parser.add_argument("--show",action="store_true",help="Show log sources")
-	Parser.add_argument("--showp",action="store_true",help="Show log sources with log pattern")
-	Parser.add_argument("--showfailed",action="store_true",help="Show failed log sources")
-	Parser.add_argument("--showgood",action="store_true",help="Show good log sources")
-	Parser.add_argument("--list",help="List current logs files from supplied logs or groups")
-	Parser.add_argument("--counts",action="store_true",help="When showing log sources, include current counts of matching files")
+	Parser.add_argument("--test",action="store_true",help="Execute test function")
 	Parser.add_argument("--limit",help="Limit result to [count] lines")
 	Parser.add_argument("--threads",help="Set max thread limit")
-	Parser.add_argument("--include",help="Include only filename patterns from log sources meta list")
-	Parser.add_argument("--all",action="store_true",help="When searching, logs not marked 'good' are ignored, this flag includes them")
-	Parser.add_argument("--mount",help="The place where log files are mounted")
-	Parser.add_argument("--out",help="Send results to supplied filename")
-	Parser.add_argument("--inorder",action="store_true",help="Best effort to display output in date ascending order")
-	Parser.add_argument("--local",action="store_true",help="User local temp space for temp files to ease mount congestion")
 	Parser.add_argument("--tmp",help="Set temp space to be used")
-	Parser.add_argument("--test",action="store_true",help="Execute test function")
-	Parser.add_argument("--start","-s",help="Start Date, iso format [YYYY][MM]DD")
-	Parser.add_argument("--end","-e",help="End Date, iso format [YYYY][MM]DD")
-	Parser.add_argument("--server",action="store_true",help="Make this thread a search cluster controller")
-	Parser.add_argument("--client",help="Provide server fqdn or IP to become a search cluster client")
-	Parser.add_argument("--clientwait",help="Time for client to wait for server on first connection (in seconds)")
-	Parser.add_argument("--expr","-f",help="File containing multiple search expressions (one per line)")
-	Parser.add_argument("--stream",help="Use named stream filter(s) on search output [comma seperated]")
-	Parser.add_argument("--query","-q",help="Execute named query in Log Meta against the log(s)")
-	# Probably remove sample...
-	Parser.add_argument("--sample",help="When showing lists of logs, show an 'n' line sample, or 'all'")
-	Parser.add_argument("--dump",action="store_true",help="Instead of search, dump logs")
-	Parser.add_argument("logs",nargs='?',default="none",help="Log(s) to search (alias from logsources")
-	Parser.add_argument("pattern",nargs='?',default="none",help="Search Pattern")
+	Parser.add_argument("--silent",action="store_true",help="Suppress output (except debug output)")
+
+	showcmds = subparsers.add_parser("show",help="Show logs and sources")
+	showcmds.add_argument("--sample",help="Show 'sample' lines from random log from population")
+	showcmds.add_argument("--headtail",action="store_true",help="Show head and tail of sample log")
+	showcmds.add_argument("--dump",action="store_true",help="Dump random log from population")
+	showcmds.add_argument("--list",action="store_true",help="List current log files from supplied logs or groups")
+	showcmds.add_argument("--counts",action="store_true",help="When showing log sources, include current counts of matching files")
+	showcmds.add_argument("--patterns","--pat",action="store_true",help="Show filename pattern also")
+	showcmds.add_argument("parameter",choices=ShowChoices,help="Log or source to show")
+	showcmds.add_argument("logspec",nargs="?",help="Log name, nickname or log group for show command")
+
+	searchcmds = subparsers.add_parser("search",help="Search logs")
+	searchcmds.add_argument("--all",action="store_true",help="When searching, logs not marked 'good' are ignored, this flag includes them")
+	searchcmds.add_argument("--out",help="Send results to supplied filename")
+	searchcmds.add_argument("--expr","-f",help="File containing multiple search expressions (one per line)")
+	searchcmds.add_argument("--stream",help="Use named stream filter(s) on search output [comma seperated]")
+	searchcmds.add_argument("--query","-q",help="Execute named query in Log Meta against the log(s)")
+	searchcmds.add_argument("--latest",action="store_true",help="Search only latest log")
+	searchcmds.add_argument("--live",action="store_true",help="Search live logs")
+	searchcmds.add_argument("--range",help="Date Ranges for search (YYYYMMDD format)")
+	searchcmds.add_argument("--inorder",action="store_true",help="Best effort to display output in date ascending order")
+	searchcmds.add_argument("--local",action="store_true",help="User local temp space for temp files to ease mount congestion")
+	searchcmds.add_argument("--start","-s",help="Start Date, iso format [YYYY][MM]DD")
+	searchcmds.add_argument("--end","-e",help="End Date, iso format [YYYY][MM]DD")
+	searchcmds.add_argument("--server",action="store_true",help="Make this thread a search cluster controller")
+	searchcmds.add_argument("--disablelocal",action="store_true",help="Disable local search threads")
+	searchcmds.add_argument("logs",nargs="?",default="none",help="Log(s) to search, can be a csv list of name, nickname or log group")
+	searchcmds.add_argument("pattern",nargs="?",default="none",help="Search pattern")
+
+	client = subparsers.add_parser("client",help="Become client")
+	client.add_argument("-w","--wait",default=DefaultConnectionWait,help="Time for client to wait for server on first connection (in seconds)")
+	client.add_argument("server",help="Provide server fqdn or IP to become a search cluster client")
 
 	return Parser
 
-# Initialize App
-def Initialize(args=None):
-	"""Initialize App"""
+# Load Metas (A LogMeta, Meta Loader)
+def LoadMetas():
+	"""Load Metas"""
 
-	global TEMPSPACE, LOGS, LOGSOURCES, searchManager, tracer, app
-	global Parser, Args, AppConfig, ConfigFile, TRACERStatefile
+	global LogSources, LogMetas
 
-	if Parser == None: BuildParser()
+	success = False
 
-	# Set Run Log
-	ph.Logfile = "/tmp/psearch_run.log"
+	if os.path.exists(LogSources):
+		try:
+			LogMetas = LogMeta.LoadMetas(LogSources)
+		except Exception as err:
+			Msg(f"An error occurred trying to load LogMetas from {LogSources}")
 
-	if args != None:
-		args,unknowns = Parser.parse_known_args(args)
-	else:
-		args,unknowns = Parser.parse_known_args()
+			breakpoint()
+		else:
+			success = True
 
-	Args = args
+	return success
 
-	if args.config != None:
-		ConfigFile = args.config
+# Load and Process Config File
+def LoadConfig(configfile = None):
+	"""Load And Process Config File"""
 
+	global AppConfig, ConfigFile
+	global TempSpace, LogSources, LogLocations, Mounts, LogMetas
+
+	success = False
+
+	# Even if we can't load the config, we want this to not be None
+	# It may overwrite an existing one... that is ok, the goal here
+	# is to ensure calls to AppConfig.get()'s will set defaults... so SET YOUR DEFAULTS
 	AppConfig = configparser.ConfigParser()
 
-	if os.path.exists(ConfigFile):
-		AppConfig.read(ConfigFile)
+	# May be redundant here, but it' a low cycle expense
+	if configfile != None: ConfigFile = configfile
 
-		# Set Config items here, so that they CAN be overridden by cmdline args
+	if ConfigFile != None and os.path.exists(ConfigFile):
+		try:
+			AppConfig.read(ConfigFile)
+			# Set Config items here, so that they CAN be overridden by cmdline args
 
-		silent = AppConfig.getboolean("settings","silent",fallback=False)
-		silent = False if silent else True
-		CmdLineMode(silent)
-		debugmode = AppConfig.getboolean("settings","debug",fallback=False)
-		DebugMode(debugmode)
+			silent = AppConfig.getboolean("settings","silent",fallback=False)
+			silent = False if silent else True # Jux Value
+			CmdLineMode(silent)
 
-		TEMPSPACE = AppConfig.get("settings","temp_space",fallback="/tmp")
-		TRACEStatefile = AppConfig.get("settings","tracefile",fallback="/tmp/trace_ex.txt")
-		LOGSOURCES = AppConfig.get("settings","logsources")
+			debugmode = AppConfig.getboolean("settings","debug",fallback=False)
+			DebugMode(debugmode)
 
-		LOGS = list()
-		for name,value in AppConfig.items("logfolders"):
-			LOGS.append(value)
+			TempSpace = AppConfig.get("settings","temp_space",fallback="/tmp")
+			TRACEStatefile = AppConfig.get("settings","tracefile",fallback="/tmp/trace_ex.txt")
+			LogSources = AppConfig.get("settings","logsources")
+
+			LoadMetas()
+
+			LogLocations = list()
+			for name,value in AppConfig.items("logfolders"):
+				LogLocations.append(value)
+
+			Mounts = list()
+			for name,value in AppConfig.items("mounts"):
+				m = Mounter(value)
+
+				m.Tag = name
+
+				Mounts.append(m)
+
+		except Exception as err:
+			ErrMsg(err,f"An error occurred trying to load the specified config file - {ConfigFile}")
+		else:
+			success = True
+
+	return success
+
+# Parse Arguments Helper
+def ParseArgs(arguments=None):
+	"""Parse Arguments"""
+
+	global Parser, Args, AppConfig, ConfigFile, Mounts, TRACERStatefile
+	global TempSpace, LogLocations, LogSources, searchManager, tracer, app
+	global LogMount
+
+	if arguments != None:
+		Args,unknowns = Parser.parse_known_args(arguments)
+	else:
+		Args,unknowns = Parser.parse_known_args()
+
+	args = Args
+
+	if args.config != None:
+		LoadConfig(args.config)
 
 	# Check for debug mode flag
 	if args.debug:
 		DebugMode(True)
 		DbgMsg("Debug mode enabled by cmdline")
-
-	tracer = Tracable()
 
 	# Check for Trace Flag
 	if args.trace:
@@ -4032,30 +4366,31 @@ def Initialize(args=None):
 
 		DbgMsg("Tracing messages turned on")
 
-	# Check for Silent Flag (silent = meages sent to log, not console)
+	# Check for Silent Flag (silent = messages sent to log, not console)
 	if args.silent:
 		DbgMsg("Silent mode enabled by cmdline")
 		CmdLineMode(False)
 
-	# Set Default Temp Space
-	if args.local:
-		TEMPSPACE="/tmp"
+	# Set Default Temp Space (Deprected 3/3/2022 by new subparser stuff, must be parsed by
+	# search handler now
+	#if args.local:
+	#	TempSpace="/tmp"
 
 	# If Temp space specified, use it (overrides --local flag)
 	if args.tmp:
-		TEMPSPACE=args.tmp
+		TempSpace=args.tmp
+
+	# Change In Log Source Location(s)
+	if args.logsrc != None:
+		LogLocations = args.logsrc.split(",")
+
+	# Check for, and potentially load, new log metas
+	if args.sources != None:
+		LogSources = args.sources
+		LoadMetas()
 
 	# Create Search Manager
-	searchManager = SearchManager(LOGS)
-
-	# Start setting app state from cmdline args processed
-	if args.sources:
-		searchManager.GetLogMetas(args.sources)
-	else:
-		searchManager.GetLogMetas(LOGSOURCES)	# Extract log meta data from XML file that stores it
-
-	# Init App Helper
-	app = App()
+	searchManager = SearchManager(LogLocations,LogMetas)
 
 	# Run tests
 	if args.test:
@@ -4063,6 +4398,117 @@ def Initialize(args=None):
 		quit()
 
 	return args
+
+# Initialize App
+def Initialize():
+	"""Initialize App"""
+
+	# Set Run Log
+	ph.Logfile = "/tmp/psearch_run.log"
+	#ph.TeeFile = "run.txt"
+
+	global Parser, AppConfig, ConfigFile, tracer
+
+	if Parser == None: BuildParser()
+
+	# Init App Helper
+	app = App()
+
+	# Init Tracer
+	tracer = Tracable()
+
+	if AppConfig == None and ConfigFile != None:
+		# If AppConfig Is not Initialized and ConfigFile is not None, attempt to load
+		LoadConfig()
+
+	LoadMetas()
+
+# Run Plugin/Import Pattern
+def run(**kwargs):
+	"""Run Plugin/Import Pattern Stub"""
+
+	global Mounts
+
+	DbgMsg("Entering psearch::run")
+
+	arguments = kwargs.get("arguments",None)
+
+	DbgMsg("Initializing")
+
+	Initialize()
+
+	DbgMsg("Init Complete, Parsing Arguments")
+
+	args = None
+
+	if arguments != None:
+		args = ParseArgs(arguments)
+	else:
+		args = ParseArgs()
+
+	DbgMsg(f"Parsing Complete, Starting Command Sequence {args.command}")
+
+	if args.mount:
+		for m in Mounts:
+			try:
+				# If not mounted, it will attempt a mount, if mounted, it notes it
+				# And carries on quietly
+				m.Mount(sudome=True)
+			except Exception as err:
+				ErrMsg(err,f"Could not mount {mh.Path}")
+
+	if args.command == "show":
+		DbgMsg("Executing show")
+		__ShowHandler__(args)
+	elif args.command == "client":
+		DbgMsg("Becoming Client")
+		Client(args.server,args.wait)
+	elif args.command == "search":
+		DbgMsg("Beginning PSearch")
+		Search(args)
+
+	for m in Mounts:
+		try:
+			# If mounts were already mounted, this will quietly not unmount them
+			if m.Mounted():
+				m.Unmount(sudome=True)
+		except Exception as err:
+			ErrMsg(err,f"Could not unmount {m.Path}")
+
+# Show Logs Handler
+def __ShowHandler__(args):
+	"""Show Logs Handler"""
+
+	global ShowChoices, LogSources
+
+	sample = 0
+	patterns = False
+	include = None
+	counts = False
+
+	if args.sample != None:
+		sample = int(args.sample)
+	elif args.dump:
+		sample = -1
+
+	if args.patterns:
+		patterns = True
+
+	if args.counts:
+		counts = args.counts
+
+	logspec = args.logspec
+
+	if not args.list:
+		ShowLogsInfo(patterns,logspec,args.parameter,counts,sample,args.headtail)
+	elif args.list:
+		ShowLogs(args.parameter,logspec)
+
+# Search Client Entry Point
+def Client(server,wait):
+	"""Search Client Entry Point"""
+
+	pass
 
 #
 # Test Harnesses/Stubs
@@ -4110,13 +4556,17 @@ def Inspect(sm):
 
 # Test Server
 def TestServer():
-	args = Initialize(args=DEBUGRVARGS)
+	Initialize()
+
+	args = ParseArgs(DEBUGRVARGS)
 
 	Search(args)
 
 # Test Client
 def TestClient():
-	args = Initialize(args=DEBUGCLTARGS)
+	Initialize()
+
+	args = ParseArgs(DEBUGCLTARGS)
 
 	Search(args)
 
@@ -4129,14 +4579,18 @@ def tc():
 	TestClient()
 
 #
+# Pre Init Stuff
+#
+
+# Random Seed Init
+random.seed()
+
+#
 # Main Loop
 #
 if __name__ == "__main__":
 	CmdLineMode(True)
 
-	args = Initialize()
+	Initialize()
 
-	Search(args)
-
-
-
+	run()

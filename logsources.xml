@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <logs>
-  <log name="Blackboard Prod" group="blackboard" status="good" nick="blackboard">
+  <log name="Blackboard Prod" group="blackboard" status="good" nick="blackboard" zone="">
     <description>Blackboard production logs</description>
     <owner>systems;Mark Carroll;mark.carroll@stonybrook.edu</owner>
     <source>129.49.1.27</source>
@@ -13,7 +13,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Blackboard Test" group="blackboard" status="failed" nick="blackboard_old">
+  <log name="Blackboard Test" group="blackboard" status="failed" nick="blackboard_old" zone="">
     <description>Bloackboard Test</description>
     <owner>systems;Mark Carroll;mark.carroll@stonybrook.edu</owner>
     <source>129.49.1.25</source>
@@ -26,7 +26,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="EAI Peoplesoft" group="peoplesoft" status="failed" nick="peoplesoft">
+  <log name="EAI Peoplesoft" group="peoplesoft" status="failed" nick="peoplesoft" zone="">
     <description>Peoplesoft logs</description>
     <owner>EAI;Andrew Kirsch;andrew.kirsch@stonybrook.edu</owner>
     <source>129.49.2.5</source>
@@ -39,7 +39,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Systems ISYR ROOTDC (Syracuse)" group="ad" status="failed" nick="syrrootdc">
+  <log name="Systems ISYR ROOTDC (Syracuse)" group="ad" status="failed" nick="syrrootdc" zone="">
     <description>Syracuse DC</description>
     <owner>systems;Brian Heller;brian.heller@stonybrook.edu</owner>
     <source>129.49.4.83</source>
@@ -52,7 +52,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Systems SYR ADDC (Syracuse)" group="ad" status="failed" nick="syrdc">
+  <log name="Systems SYR ADDC (Syracuse)" group="ad" status="failed" nick="syrdc" zone="">
     <description>Syracuse ADDC (Redundant DC)</description>
     <owner>systems;Brian Heller;brian.heller@stonybrook.edu</owner>
     <source>129.49.4.84</source>
@@ -65,7 +65,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Juniper" group="vpn" status="removed" nick="vpn_old">
+  <log name="Juniper" group="vpn" status="removed" nick="vpn_old" zone="">
     <description>Juniper VPN</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>129.49.6.3</source>
@@ -78,7 +78,7 @@
     <comment>Removed 1/29/2020</comment>
     <notes></notes>
   </log>
-  <log name="Infoblox_itisme_a" group="dns" status="good" nick="itisme">
+  <log name="Infoblox_itisme_a" group="dns" status="good" nick="itisme" zone="">
     <description>Infoblock DNS</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>129.49.7.2</source>
@@ -91,7 +91,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Infoblox_nocnoc" group="dns" status="good" nick="nocnoc">
+  <log name="Infoblox_nocnoc" group="dns" status="good" nick="nocnoc" zone="">
     <description>Infoblox DNS</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>129.49.7.3</source>
@@ -104,7 +104,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Infoblox_7_168" group="dns" status="good" nick="recursive1">
+  <log name="Infoblox_7_168" group="dns" status="good" nick="recursive1" zone="">
     <description>Recursive DNS</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>129.49.7.168</source>
@@ -117,7 +117,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Infoblox_7_172" group="dns" status="good" nick="recursive2">
+  <log name="Infoblox_7_172" group="dns" status="good" nick="recursive2" zone="">
     <description>Recursive DNS</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>129.49.7.172</source>
@@ -130,7 +130,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Infoblox_irecusrion" group="dns" status="removed" nick="recursive3">
+  <log name="Infoblox_irecusrion" group="dns" status="removed" nick="recursive3" zone="">
     <description>No description</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>129.49.7.173</source>
@@ -143,7 +143,7 @@
     <comment>Removed on 1/29/2020</comment>
     <notes></notes>
   </log>
-  <log name="NOC Adm Aruba Wifi Ctrl 01" group="wifi" status="good" nick="aruba1">
+  <log name="NOC Adm Aruba Wifi Ctrl 01" group="wifi" status="good" nick="aruba1" zone="">
     <description>Aruba Wifi Controller 1</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>129.49.7.211</source>
@@ -164,7 +164,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="NOC Adm Aruba Wifi Ctrl 02" group="wifi" status="good" nick="aruba2">
+  <log name="NOC Adm Aruba Wifi Ctrl 02" group="wifi" status="good" nick="aruba2" zone="">
     <description>Aruba Wifi Controller 2</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>129.49.7.212</source>
@@ -185,7 +185,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="NOC Adm Aruba Wifi Ctrl 03" group="wifi" status="failed" nick="aruba3">
+  <log name="NOC Adm Aruba Wifi Ctrl 03" group="wifi" status="failed" nick="aruba3" zone="">
     <description>Aruba Wifi Controller 3</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>129.49.7.213</source>
@@ -206,7 +206,7 @@
     <comment>New 1/29/2020, is it being fed yet</comment>
     <notes></notes>
   </log>
-  <log name="NOC Adm Aruba Wifi Ctrl 04" group="wifi" status="failed" nick="aruba4">
+  <log name="NOC Adm Aruba Wifi Ctrl 04" group="wifi" status="failed" nick="aruba4" zone="">
     <description>Aruba Wifi Controller 4</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>129.49.7.214</source>
@@ -227,7 +227,7 @@
     <comment>New 1/29/2020, is it being fed yet</comment>
     <notes></notes>
   </log>
-  <log name="NOC ddn01" group="voip" status="removed" nick="voipdns_old">
+  <log name="NOC ddn01" group="voip" status="removed" nick="voipdns_old" zone="">
     <description>Wifi and VOIP DNS</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>129.49.7.224</source>
@@ -240,20 +240,28 @@
     <comment>Fixed on 1/29/2020, see new entry</comment>
     <notes></notes>
   </log>
-  <log name="NOC ddn01" group="voip" status="good" nick="voipdns">
-    <description>Wifi and VOIP DNS</description>
+  <log name="NOC ddn01" group="voip,dns,dhcp,wifi" status="good" nick="voipdns" zone="">
+    <description>Wifi and VOIP DNS/DHCP</description>
     <owner>NOC;Behzad Barzideh;behzad.barzideh@stonybrook.edu</owner>
     <source>129.49.101.254</source>
     <targets>
       <target comment="Masergy">129.49.31.44</target>
     </targets>
     <parse-info>
-      <name>^129\.49\.101\.254\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+      <name>^129\.49\.101\.254\.log(\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}){0,1}$</name>
     </parse-info>
+    <queries>
+      <!-- DHCP Sequence, DISCOVER, OFFER, REQUEST, ACK -->
+      <query name="test" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>[^\\]+)\S+\s+dhcpd\[\d+\]\:\s+DHCPDISCOVER\s+from\s+(?P<macaddress>\S+)(\s+\((?P<devname>[^\)]+)\)){0,1}\s+via\s+(?P<interface>\S+)\s+TransID\s+(?P<transactionid>\S+)(?P<remainder>.*)]]></query>
+      <query name="discover" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>[^\\]+)\S+\s+dhcpd\[\d+\]\:\s+DHCPDISCOVER\s+from\s+(?P<macaddress>\S+)(\s+\((?P<devname>[^\)]+)\)){0,1}\s+via\s+(?P<interface>\S+)\s+TransID\s+(?P<transactionid>\S+)(?P<remainder>.*)]]></query>
+      <query name="offer" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>[^\\]+)\S+\s+dhcpd\[\d+\]\:\s+DHCPOFFER\s+on\s+(?P<offeredip>\S+)\s+to\s+(?P<macaddress>\S+)(\s+\((?P<devname>[^\)]+)\)){0,1}\s+via\s+(?P<interface>\S+)\s+relay\s+(?P<relay>\S+)\s+lease-duration\s+(?P<duration>\d+)\s+offered-duration\s(?P<offeredduration>\d+)(?P<remainder>.*)]]></query>
+      <query name="request" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>[^\\]+)\S+\s+dhcpd\[\d+\]\:\s+DHCPREQUEST\s+for\s+(?P<requestedip>\S+)(\s+\((?P<unknown1>[^\)]+)\)){0,1}\s+from\s+(?P<macaddress>\S+)(\s+\((?P<devname>[^\)]+)\)){0,1}\s+via\s+(?P<interface>\S+)\s+TransID\s+(?P<transactionid>\S+)(?P<remainder>.*)]]></query>
+      <query name="ack" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>[^\\]+)\S+\s+dhcpd\[\d+\]\:\s+DHCPACK\s+on\s+(?P<assignedip>\S+)\s+to\s+(?P<macaddress>\S+)(\s+\((?P<devname>[^\)]+)\)){0,1}\s+via\s+(?P<interface>\S+)\s+relay\s+(?P<relay>\S+)\s+lease\-duration\s+(?P<leaseduration>\d+)(?P<remainder>.*)]]></query>
+    </queries>
     <comment>Changed from previous entry, IP of source corrected from 129.49.7.224</comment>
     <notes></notes>
   </log>
-  <log name="Infoblox_whoisthere" group="dns" status="good" nick="dnsauth">
+  <log name="Infoblox_whoisthere" group="dns" status="good" nick="dnsauth" zone="">
     <description>DNS-Auth-02, DNS</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>129.49.7.250</source>
@@ -266,7 +274,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Infoblox_itisme_b" group="dns" status="removed" nick="itismeb">
+  <log name="Infoblox_itisme_b" group="dns" status="removed" nick="itismeb" zone="">
     <description>Infoblox DNS itisme_b</description>
     <owner>NOC;Behzad Barzideh;behzad.barzideh@stonybrook.edu</owner>
     <source>129.49.7.252</source>
@@ -279,7 +287,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="IPAM Management 1" group="ipam" status="failed" nick="ipam1">
+  <log name="IPAM Management 1" group="ipam" status="failed" nick="ipam1" zone="">
     <description>IPAM Management Logs 1</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>129.49.200.29</source>
@@ -292,7 +300,7 @@
     <comment>New, 1/29/2020, is it being fed yet</comment>
     <notes></notes>
   </log>
-  <log name="IPAM Management 2" group="ipam" status="failed" nick="ipam2">
+  <log name="IPAM Management 2" group="ipam" status="failed" nick="ipam2" zone="">
     <description>IPAM Management Logs 2</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>129.49.200.31</source>
@@ -305,7 +313,7 @@
     <comment>New, 1/29/2020, is this being fed yet</comment>
     <notes></notes>
   </log>
-  <log name="CPPM 1" group="wifi" status="failed" nick="cppm1">
+  <log name="CPPM 1" group="wifi" status="failed" nick="cppm1" zone="">
     <description>Clear Pass Policy Manager Srv 1</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>129.49.200.252</source>
@@ -318,7 +326,7 @@
     <comment>New, 1/29/2020, is this being fed yet</comment>
     <notes></notes>
   </log>
-  <log name="CPPM 2" group="wifi" status="failed" nick="cppm2">
+  <log name="CPPM 2" group="wifi" status="failed" nick="cppm2" zone="">
     <description>Clear Pass Policy Manager Srv 2</description>
     <owner>NOC;Bezhad Barzideh;behzad.barzideh@stonybrook.edu</owner>
     <source>129.49.200.253</source>
@@ -331,7 +339,7 @@
     <comment>Existing, failed. Awaiting repair</comment>
     <notes></notes>
   </log>
-  <log name="CPPM 3" group="wifi" status="failed" nick="cppm3">
+  <log name="CPPM 3" group="wifi" status="failed" nick="cppm3" zone="">
     <description>Clear Pass Policy manager Srv 3</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>129.49.200.254</source>
@@ -344,7 +352,7 @@
     <comment>new, 1/29/2020, is this being fed yet</comment>
     <notes></notes>
   </log>
-  <log name="Systems ROOTDC" group="ad" status="failed" nick="rootdc1">
+  <log name="Systems ROOTDC" group="ad" status="failed" nick="rootdc1" zone="">
     <description>Campus DC</description>
     <owner>systems;Brian Heller;brian.heller@stonybrook.edu</owner>
     <source>129.49.23.113</source>
@@ -357,7 +365,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Systems ADDC1" group="ad" status="failed" nick="addc1">
+  <log name="Systems ADDC1" group="ad" status="failed" nick="addc1" zone="">
     <description>Campus DC</description>
     <owner>systems;Brian Heller;brian.heller@stonybrook.edu</owner>
     <source>129.49.23.114</source>
@@ -370,7 +378,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Systems ROOTDC2" group="ad" status="good" nick="rootdc2">
+  <log name="Systems ROOTDC2" group="ad" status="good" nick="rootdc2" zone="">
     <description>Campus DC</description>
     <owner>systems;Brian Heller;brian.heller@stonybrook.edu</owner>
     <source>129.49.23.115</source>
@@ -383,7 +391,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Systems ADDC2" group="ad" status="good" nick="addc2">
+  <log name="Systems ADDC2" group="ad" status="good" nick="addc2" zone="">
     <description>Campus DC</description>
     <owner>systems;Brian Heller;brian.heller@stonybrook.edu</owner>
     <source>129.49.23.121</source>
@@ -396,7 +404,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Systems ADDC3" group="ad" status="good" nick="addc3">
+  <log name="Systems ADDC3" group="ad" status="good" nick="addc3" zone="">
     <description>Campus DC</description>
     <owner>systems;Brian Heller;brian.heller@stonybrook.edu</owner>
     <source>129.49.23.148</source>
@@ -409,7 +417,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="IACS Syslog" group="iacs" status="failed" nick="iacs">
+  <log name="IACS Syslog" group="iacs" status="failed" nick="iacs" zone="">
     <description>IACS Syslogs, auth mostly</description>
     <owner>IACS;Firat Coskun;firat.coskun@stonybrook.edu</owner>
     <source>129.49.82.54</source>
@@ -422,7 +430,7 @@
     <comment>Check back with John/Firat/Dan in a month or two, they are rengineering their login node</comment>
     <notes></notes>
   </log>
-  <log name="Shibboleth-LB-PUB" group="systems" status="good" nick="shib">
+  <log name="Shibboleth-LB-PUB" group="systems" status="good" nick="shib" zone="">
     <description>Shibboleth Server</description>
     <owner>Brian Heller;brian.heller@stonybrook.edu</owner>
     <source>129.49.203.81</source>
@@ -435,7 +443,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Shibboleth-FTMG2-PUB" group="shibboleth" status="failed" nick="shib1">
+  <log name="Shibboleth-FTMG2-PUB" group="shibboleth" status="failed" nick="shib1" zone="">
     <description>Shibboleth Server</description>
     <owner>systems;Brian Heller;brian.heller@stonybrook.edu</owner>
     <source>129.49.203.110</source>
@@ -448,7 +456,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Shibboleth-SSO.CC" group="shibboleth" status="failed" nick="shib2">
+  <log name="Shibboleth-SSO.CC" group="shibboleth" status="failed" nick="shib2" zone="">
     <description>Shibboleth Server</description>
     <owner>systems;Brian Heller;brian.heller@stonybrook.edu</owner>
     <source>129.49.203.117</source>
@@ -461,7 +469,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Infoblox_darkside" group="dns" status="removed" nick="darkside">
+  <log name="Infoblox_darkside" group="dns" status="removed" nick="darkside" zone="">
     <description>Reznet/CompSci DNS</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>130.245.255.4</source>
@@ -474,7 +482,7 @@
     <comment>Removed 1/29/2020</comment>
     <notes></notes>
   </log>
-  <log name="Infoblox REZ1 DHCP" group="dhcp" status="good" nick="reznet1">
+  <log name="Infoblox REZ1 DHCP" group="dhcp" status="good" nick="reznet1" zone="local">
     <description>Reznet DHCP (aka darkside)</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>130.245.255.11</source>
@@ -482,11 +490,11 @@
       <target comment="Masergy">129.49.31.44</target>
     </targets>
     <parse-info>
-      <name>^130\.245\.255\.11\.log\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}$</name>
+      <name>^130\.245\.255\.11\.log(\.(?P&lt;date&gt;[0-9]{8})(\.gz){0,1}){0,1}$</name>
     </parse-info>
     <queries>
       <!-- DHCP Sequence, DISCOVER, OFFER, REQUEST, ACK -->
-      <query name="teest" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>[^\\]+)\S+\s+dhcpd\[\d+\]\:\s+DHCPDISCOVER\s+from\s+(?P<macaddress>\S+)(\s+\((?P<devname>[^\)]+)\)){0,1}\s+via\s+(?P<interface>\S+)\s+TransID\s+(?P<transactionid>\S+)(?P<remainder>.*)]]></query>
+      <query name="test" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>[^\\]+)\S+\s+dhcpd\[\d+\]\:\s+DHCPDISCOVER\s+from\s+(?P<macaddress>\S+)(\s+\((?P<devname>[^\)]+)\)){0,1}\s+via\s+(?P<interface>\S+)\s+TransID\s+(?P<transactionid>\S+)(?P<remainder>.*)]]></query>
       <query name="discover" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>[^\\]+)\S+\s+dhcpd\[\d+\]\:\s+DHCPDISCOVER\s+from\s+(?P<macaddress>\S+)(\s+\((?P<devname>[^\)]+)\)){0,1}\s+via\s+(?P<interface>\S+)\s+TransID\s+(?P<transactionid>\S+)(?P<remainder>.*)]]></query>
       <query name="offer" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>[^\\]+)\S+\s+dhcpd\[\d+\]\:\s+DHCPOFFER\s+on\s+(?P<offeredip>\S+)\s+to\s+(?P<macaddress>\S+)(\s+\((?P<devname>[^\)]+)\)){0,1}\s+via\s+(?P<interface>\S+)\s+relay\s+(?P<relay>\S+)\s+lease-duration\s+(?P<duration>\d+)\s+offered-duration\s(?P<offeredduration>\d+)(?P<remainder>.*)]]></query>
       <query name="request" index=""><![CDATA[^(?P<timestamp>\w+\s+\d{1,2}\s+[\d\:]{8})\s+(?P<controller>[^\\]+)\S+\s+dhcpd\[\d+\]\:\s+DHCPREQUEST\s+for\s+(?P<requestedip>\S+)(\s+\((?P<unknown1>[^\)]+)\)){0,1}\s+from\s+(?P<macaddress>\S+)(\s+\((?P<devname>[^\)]+)\)){0,1}\s+via\s+(?P<interface>\S+)\s+TransID\s+(?P<transactionid>\S+)(?P<remainder>.*)]]></query>
@@ -495,7 +503,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Infoblox REZ2 DNS" group="dns" status="good" nick="reznet2">
+  <log name="Infoblox REZ2 DNS" group="dns" status="good" nick="reznet2" zone="local">
     <description>Reznet DNS (aka darkside)</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>130.245.255.12</source>
@@ -508,7 +516,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Aruba M1" group="wifi" status="removed" nick="arubam1">
+  <log name="Aruba M1" group="wifi" status="removed" nick="arubam1" zone="">
     <description>Aruba M1 Rez wifi controller</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>130.245.255.17</source>
@@ -521,7 +529,7 @@
     <comment>Removed 1/29/2020</comment>
     <notes></notes>
   </log>
-  <log name="Aruba M2" group="wifi" status="removed" nick="arubam2">
+  <log name="Aruba M2" group="wifi" status="removed" nick="arubam2" zone="">
     <description>Aruba M2 Rez wifi controller</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>130.245.255.19</source>
@@ -534,7 +542,7 @@
     <comment>Removed 1/29/2020</comment>
     <notes></notes>
   </log>
-  <log name="Wificontroller-Tabler" group="wifi" status="removed" nick="arubatabler">
+  <log name="Wificontroller-Tabler" group="wifi" status="removed" nick="arubatabler" zone="">
     <description>Aruba Tabler Wifi controller</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>130.245.255.24</source>
@@ -547,7 +555,7 @@
     <comment>Removed 1/29/2020</comment>
     <notes></notes>
   </log>
-  <log name="Rez Aruba Wifi Ctrl 01" group="wifi" status="good" nick="arubarez1">
+  <log name="Rez Aruba Wifi Ctrl 01" group="wifi" status="good" nick="arubarez1" zone="">
     <description>Resnet Wifi Controller 01</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>130.245.255.31</source>
@@ -568,7 +576,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Rez Aruba Wifi Ctrl 02" group="wifi" status="failed" nick="arubarez2">
+  <log name="Rez Aruba Wifi Ctrl 02" group="wifi" status="failed" nick="arubarez2" zone="">
     <description>Rsenet Wifi Controller 02</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>130.245.255.32</source>
@@ -589,7 +597,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="Rez Aruba Ctrl 03" group="wifi" status="failed" nick="arubarez3">
+  <log name="Rez Aruba Ctrl 03" group="wifi" status="failed" nick="arubarez3" zone="">
     <description>Resnet Wifi controller 3</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>130.245.255.33</source>
@@ -610,7 +618,7 @@
     <comment>New 1/29/2020, is this being fed yet</comment>
     <notes></notes>
   </log>
-  <log name="Rez Aruba Ctrl 04" group="wifi" status="failed" nick="arubarez4">
+  <log name="Rez Aruba Ctrl 04" group="wifi" status="failed" nick="arubarez4" zone="">
     <description>Reznet/CompSci DNS</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>130.245.255.34</source>
@@ -631,7 +639,7 @@
     <comment>New 1/29/2020, is this being fed yet</comment>
     <notes></notes>
   </log>
-  <log name="NOC/TLT TLTFW-Act" group="firewall" status="good" nick="tltpalo">
+  <log name="NOC/TLT TLTFW-Act" group="firewall" status="good" nick="tltpalo" zone="">
     <description>Active TLT Firewall</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>172.16.200.31</source>
@@ -644,7 +652,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="NOC/TLT TLTFW_Pas" group="firewall" status="good" nick="tltpalopasv">
+  <log name="NOC/TLT TLTFW_Pas" group="firewall" status="good" nick="tltpalopasv" zone="">
     <description>Passive TLT Firewall</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>172.16.200.32</source>
@@ -670,7 +678,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="NOC/FSA FSAFW-Pas" group="firewall" status="good" nick="fsapalopasv">
+  <log name="NOC/FSA FSAFW-Pas" group="firewall" status="good" nick="fsapalopasv" zone="">
     <description>Passive FSA Firewall</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>172.16.200.34</source>
@@ -683,7 +691,7 @@
     <comment>Passive FW, not feeding logs until active FW is down, failed state is normal</comment>
     <notes></notes>
   </log>
-  <log name="NOC SBU-PA-7080_Firewall_2 HA PA" group="firewall" status="good" nick="campuspalo">
+  <log name="NOC SBU-PA-7080_Firewall_2 HA PA" group="firewall" status="good" nick="campuspalo" zone="">
     <description>pfwRez/pfwAdm/Guest/etc Border firewall</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>172.16.200.35</source>
@@ -807,7 +815,7 @@
       n/a— This value applies when the traffic log type is not end.
     </notes>
   </log>
-  <log name="NOC/UPD UPDFW-Act" group="firewall" status="good" nick="updpalo">
+  <log name="NOC/UPD UPDFW-Act" group="firewall" status="good" nick="updpalo" zone="">
     <description>Active UPD Firewall</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>172.16.200.37</source>
@@ -820,7 +828,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="NOC/UPD UPDFW-Pas" group="firewall" status="good" nick="updpalopasv">
+  <log name="NOC/UPD UPDFW-Pas" group="firewall" status="good" nick="updpalopasv" zone="">
     <description>Passive UPD Firewall</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>172.16.200.38</source>
@@ -833,7 +841,7 @@
     <comment>Passive UPD firewall, failed state is normal. Feeds logs when active fw is down</comment>
     <notes></notes>
   </log>
-  <log name="NOC SBU-PA-7080_firewall_Blocker" group="firewall" status="good" nick="campuspalo">
+  <log name="NOC SBU-PA-7080_firewall_Blocker" group="firewall" status="good" nick="campuspalo" zone="">
     <description>Border Firewall</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>172.16.200.39</source>
@@ -846,7 +854,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="NOC VPNFW-Act" group="firewall" status="good" nick="vpnpalo">
+  <log name="NOC VPNFW-Act" group="firewall" status="good" nick="vpnpalo" zone="">
     <description>Active VPN Firewall</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>172.16.200.55</source>
@@ -859,7 +867,7 @@
     <comment></comment>
     <notes></notes>
   </log>
-  <log name="NOC VPNFW-Pas" group="firewall" status="good" nick="vpnpalopasv">
+  <log name="NOC VPNFW-Pas" group="firewall" status="good" nick="vpnpalopasv" zone="">
     <description>Passive VPN Firewall</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>172.16.200.56</source>
@@ -872,7 +880,7 @@
     <comment>Passive fw, failed state is normal. Sends logs when active fw is down</comment>
     <notes></notes>
   </log>
-  <log name="NOC WIFI_AUTH_SONICWALL1" group="firewall" status="removed" nick="sonicwall">
+  <log name="NOC WIFI_AUTH_SONICWALL1" group="firewall" status="removed" nick="sonicwall" zone="">
     <description>Sonicwall Wifi Auth test</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>38.105.236.163</source>
@@ -885,7 +893,7 @@
     <comment>Removed 1/29/2020</comment>
     <notes></notes>
   </log>
-  <log name="Infoblox_mewho (DNS-Auth-03)" group="dns" status="failed" nick="mewho">
+  <log name="Infoblox_mewho (DNS-Auth-03)" group="dns" status="failed" nick="mewho" zone="">
     <description>DNS-Auth 3</description>
     <owner>NOC;Behzad Barzideh;bezhad.barzideh@stonybrook.edu</owner>
     <source>199.110.254.244</source>
@@ -899,7 +907,7 @@
     <notes></notes>
   </log>
   <!--
-  <log name="" group="" status="" nick="">
+  <log name="" group="" status="" nick="" zone="blank|local|utc|Actual Zone Info">
     <description></description>
     <owner></owner>
     <source></source>
